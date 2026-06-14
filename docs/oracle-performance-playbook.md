@@ -28,6 +28,136 @@
 | Active Session History (ASH) samples | Captures short lock, latch, CPU, and IO spikes that may be averaged out of hourly Automatic Workload Repository (AWR) snapshots |
 | Blocking session details | Identifies root blockers instead of only the sessions waiting behind them |
 
+## How To Capture Oracle Performance Evidence
+
+Use these commands during an incident, batch-window review, or release validation. Access depends on database privileges and licensed Oracle packs.
+
+### Automatic Workload Repository Report
+
+Generate an Automatic Workload Repository (AWR) report for the slow time window:
+
+```sql
+@$ORACLE_HOME/rdbms/admin/awrrpt.sql
+```
+
+The script prompts for report format, snapshot range, and output file. Use the peak processing window as the begin and end snapshot range.
+
+### Active Session History Samples
+
+Use Active Session History (ASH) for recent active-session samples:
+
+```sql
+SELECT
+    sample_time,
+    session_id,
+    sql_id,
+    event,
+    wait_class,
+    session_state,
+    blocking_session
+FROM v$active_session_history
+WHERE sample_time >= SYSTIMESTAMP - INTERVAL '30' MINUTE
+ORDER BY sample_time DESC;
+```
+
+Use historical ASH when the incident is no longer in memory:
+
+```sql
+SELECT
+    sample_time,
+    session_id,
+    sql_id,
+    event,
+    wait_class,
+    session_state,
+    blocking_session
+FROM dba_hist_active_sess_history
+WHERE sample_time >= SYSDATE - 1
+ORDER BY sample_time DESC;
+```
+
+### Current Wait Events
+
+Capture current waiting sessions and blockers:
+
+```sql
+SELECT
+    sid,
+    serial#,
+    username,
+    event,
+    wait_class,
+    seconds_in_wait,
+    blocking_session,
+    sql_id
+FROM v$session
+WHERE state = 'WAITING'
+ORDER BY seconds_in_wait DESC;
+```
+
+Capture historical wait-event pressure:
+
+```sql
+SELECT
+    event_name,
+    wait_class,
+    total_waits,
+    time_waited_micro
+FROM dba_hist_system_event
+ORDER BY time_waited_micro DESC;
+```
+
+### SQL IDs And SQL Cost Metrics
+
+Find currently active SQL IDs:
+
+```sql
+SELECT
+    sid,
+    serial#,
+    username,
+    sql_id,
+    event,
+    status
+FROM v$session
+WHERE sql_id IS NOT NULL;
+```
+
+Find top SQL by elapsed time:
+
+```sql
+SELECT
+    sql_id,
+    executions,
+    elapsed_time,
+    cpu_time,
+    buffer_gets,
+    disk_reads,
+    rows_processed
+FROM v$sql
+ORDER BY elapsed_time DESC
+FETCH FIRST 20 ROWS ONLY;
+```
+
+### Bind Values
+
+Capture sampled bind values for a known SQL ID:
+
+```sql
+SELECT
+    sql_id,
+    name,
+    position,
+    datatype_string,
+    value_string,
+    last_captured
+FROM v$sql_bind_capture
+WHERE sql_id = 'your_sql_id_here'
+ORDER BY position;
+```
+
+Bind capture is sampled. It may not contain every value used during the incident, so pair bind data with application logs, trace IDs, and representative replay cases where possible.
+
 ## Common Patterns
 
 | Symptom | Likely Cause | Possible Fix |

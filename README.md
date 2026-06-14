@@ -85,7 +85,7 @@ Post-Release Verification
 
 2. **Extract workload performance metrics**
 
-   Capture Automatic Workload Repository (AWR), Active Session History (ASH), SQL IDs, plan hashes, wait events, elapsed time, CPU time, buffer gets, physical reads, and bind samples for the affected window.
+   Capture Automatic Workload Repository (AWR), Active Session History (ASH), SQL IDs, plan hashes, wait events, elapsed time, CPU time, buffer gets, physical reads, and bind samples for the affected window. See the capture commands in [oracle-performance-playbook.md](docs/oracle-performance-playbook.md#how-to-capture-oracle-performance-evidence).
 
 3. **Classify the bottleneck**
 
