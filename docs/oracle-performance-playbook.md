@@ -25,7 +25,7 @@
 | Wait events | Shows where sessions spend time |
 | Bind variables | Explains plan variation and selectivity |
 | Table/index stats | Determines optimizer quality |
-| Active Session History (ASH) samples | Captures short lock, latch, CPU, and IO spikes that may be averaged out of hourly AWR snapshots |
+| Active Session History (ASH) samples | Captures short lock, latch, CPU, and IO spikes that may be averaged out of hourly Automatic Workload Repository (AWR) snapshots |
 | Blocking session details | Identifies root blockers instead of only the sessions waiting behind them |
 
 ## Common Patterns
@@ -66,7 +66,7 @@
 | Histogram policy | Use histograms only where data skew is proven and monitored |
 | Deployment gate | Block release when a critical plan hash changes without approval |
 
-Hourly Automatic Workload Repository (AWR) reports are not enough for high-frequency financial batches. A row-lock spike that lasts under a minute can be averaged into the broader snapshot. Supplement AWR with ASH, targeted `v$session` sampling, and blocker capture during batch windows and release validation.
+Hourly Automatic Workload Repository (AWR) reports are not enough for high-frequency financial batches. A row-lock spike that lasts under a minute can be averaged into the broader snapshot. Supplement AWR with Active Session History (ASH), targeted `v$session` sampling, and blocker capture during batch windows and release validation.
 
 ## Online Index And Partition Strategy
 

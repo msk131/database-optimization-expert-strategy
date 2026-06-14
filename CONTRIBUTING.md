@@ -4,7 +4,7 @@ Contributions should improve practical database performance engineering guidance
 
 ## Contribution Standards
 
-- Tie recommendations to evidence such as SQL IDs, execution plans, AWR, ASH, wait events, cardinality, or production-like test results.
+- Tie recommendations to evidence such as SQL IDs, execution plans, Automatic Workload Repository (AWR), Active Session History (ASH), wait events, cardinality, or production-like test results.
 - Include operational tradeoffs, especially write-path cost, lock risk, rollback complexity, and observability requirements.
 - Avoid generic tuning advice that cannot be validated.
 - Prefer clear examples, checklists, and decision tables.

@@ -43,7 +43,7 @@ Measure:
 - Physical reads
 - CPU time
 - Wait events
-- ASH samples for short spikes hidden by broad AWR windows
+- Active Session History (ASH) samples for short spikes hidden by broad Automatic Workload Repository (AWR) windows
 - Blocking sessions and lock wait chains
 - Plan hash changes for critical SQL
 - Partition pruning behavior for ETL and batch queries

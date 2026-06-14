@@ -23,7 +23,7 @@ Regulated, high-volume environments often need the database to remain the system
 
 ```text
 Production Telemetry
-  AWR, ASH, wait events, SQL IDs, bind values
+  Automatic Workload Repository (AWR), Active Session History (ASH), wait events, SQL IDs, bind values
         |
         v
 Evidence-Based Diagnosis
@@ -48,7 +48,7 @@ Post-Release Verification
 
 | Artifact | Strategic Focus | Operational Value |
 | :--- | :--- | :--- |
-| [oracle-performance-playbook.md](docs/oracle-performance-playbook.md) | Evidence-driven tuning | SQL Plan Management, AWR/ASH metrics, blocker capture, stats governance |
+| [oracle-performance-playbook.md](docs/oracle-performance-playbook.md) | Evidence-driven tuning | SQL Plan Management, Automatic Workload Repository (AWR) and Active Session History (ASH) metrics, blocker capture, stats governance |
 | [indexing-and-query-patterns.md](docs/indexing-and-query-patterns.md) | Data structures and access paths | Index tradeoffs, N+1 prevention, Oracle hints, parallel query, partition-aware ETL |
 | [production-rollout-controls.md](docs/production-rollout-controls.md) | Deployment safety | Release checklists, rollback expectations, post-release database validation |
 | [oracle-tuning-workflow.md](diagrams/oracle-tuning-workflow.md) | Tuning workflow | End-to-end path from business impact to regression prevention |
@@ -58,7 +58,7 @@ Post-Release Verification
 
 ## Core Engineering Principles
 
-- **Telemetry over guesses**: Every performance action must map to AWR, ASH, execution plans, wait events, bind values, and business impact.
+- **Telemetry over guesses**: Every performance action must map to Automatic Workload Repository (AWR), Active Session History (ASH), execution plans, wait events, bind values, and business impact.
 - **Set-based dominance**: Prefer set-based SQL and staged database operations over application-layer iterative loops.
 - **Deliberate indexing**: Every index must justify its read benefit against write cost, storage, redo, undo, and optimizer-plan risk.
 - **Hints as exceptions**: Treat Oracle hints as controlled workarounds, not as standard production design.
@@ -73,7 +73,7 @@ Post-Release Verification
 ### Prerequisites
 
 - Oracle Database 19c or higher
-- Access to AWR and ASH, where licensed and available
+- Access to Automatic Workload Repository (AWR) and Active Session History (ASH), where licensed and available
 - Representative production-scale data or a realistic performance test environment
 - Permission to inspect execution plans, SQL IDs, wait events, and bind profiles
 
@@ -85,7 +85,7 @@ Post-Release Verification
 
 2. **Extract workload performance metrics**
 
-   Capture AWR, ASH, SQL IDs, plan hashes, wait events, elapsed time, CPU time, buffer gets, physical reads, and bind samples for the affected window.
+   Capture Automatic Workload Repository (AWR), Active Session History (ASH), SQL IDs, plan hashes, wait events, elapsed time, CPU time, buffer gets, physical reads, and bind samples for the affected window.
 
 3. **Classify the bottleneck**
 
